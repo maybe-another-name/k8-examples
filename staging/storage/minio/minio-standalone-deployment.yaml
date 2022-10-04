@@ -15,6 +15,10 @@ spec:
         # Label is used as selector in the service.
         app: minio
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       # Refer to the PVC created earlier
       volumes:
       - name: storage
@@ -34,9 +38,6 @@ spec:
           value: "minio"
         - name: MINIO_SECRET_KEY
           value: "minio123"
-        ports:
-        - containerPort: 9000
-          hostPort: 9000
         # Mount the volume into the pod
         volumeMounts:
         - name: storage # must match the volume name, above
